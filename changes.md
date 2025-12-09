@@ -1,0 +1,1 @@
+-abandoned keeping player and enemy in same class, would be too complilcated
