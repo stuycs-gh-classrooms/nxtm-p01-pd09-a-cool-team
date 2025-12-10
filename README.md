@@ -67,6 +67,7 @@ Entitys (includes both player and enemies)
   - shoot
   - move
   - die
+
 Projectile
 - Instance variables:
   - xcor
