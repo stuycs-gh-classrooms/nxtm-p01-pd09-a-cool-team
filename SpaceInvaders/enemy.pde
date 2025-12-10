@@ -4,7 +4,7 @@ class Enemy {
   float w = 30;
   float h = 20;
   float dir = 1;//direction, postive-right, negative-left
-  float speed = 0.5;
+  float speed = 25;
 
   Enemy(float x, float y) {
     this.x = x;
@@ -13,13 +13,12 @@ class Enemy {
 
   void update() {
     x += dir * speed;
-
-    // bounce and move down when hitting sides
-    if (x < 0 || x > width - w) {
+  // bounce and move down when hitting sides
+  if (x < 0 || x > width - w){
       dir *= -1;
       y += 20;
-    }
   }
+    }
 
   void display() {
     fill(0, 0, 255);
@@ -27,7 +26,7 @@ class Enemy {
   }
 
   boolean hit(Projectile p) {
-    // simple collision check
+    // collision check
     return (p.x > x && p.x < x + w && p.y > y && p.y < y + h);
   }
 
