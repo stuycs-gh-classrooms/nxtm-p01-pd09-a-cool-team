@@ -1,1 +1,2 @@
 -abandoned keeping player and enemy in same class, would be too complilcated
+-instead of have a "die" method for everything, I deleted the object from their corresponding arrays whenever they collided with something
