@@ -1,5 +1,7 @@
--abandoned keeping player and enemy in same class, would be too complilcated
+- abandoned keeping player and enemy in same class, would be too complilcated
 
--instead of have a "die" method for everything, I deleted the object from their corresponding arrays whenever they collided with something
+- instead of have a "die" method for everything, I deleted the object from their corresponding arrays whenever they collided with something
 
--
+- added direction to enemy and player, enemy will change direction when hitting edge of screen, player will change direction when arrow keys are pressed
+
+- 
