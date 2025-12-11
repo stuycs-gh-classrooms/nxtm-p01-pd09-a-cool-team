@@ -13,11 +13,12 @@ class Enemy {
 
   void update() {
     x += dir * speed;
+  }
   // bounce and move down when hitting sides
-  if (x < 0 || x > width - w){
+  void changedir(){
       dir *= -1;
       y += 20;
-  }
+  
     }
 
   void display() {
