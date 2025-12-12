@@ -11,6 +11,7 @@ int lives = 3; // number of lives
 boolean gameWon = false;
 
 void setup() {
+  score = 0;
   size(600, 400);
   resetGame();
 }
@@ -18,7 +19,7 @@ void setup() {
 void resetGame() {
   gameWon = false;
   lives = 3;
-  score = 0;
+  //score = 0;
   player = new Player(); //makes player
 
   enemies = new Enemy[rows][cols]; //2d array for all the enemy objects
@@ -89,22 +90,27 @@ void draw() {
 
     // enemies
     boolean anyAlive = false;
-
+boolean turn = false;
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         Enemy e = enemies[r][c];
-        //if (e != null) {//checks every enemy, if they are alive:
-        if (frameCount % 60 == 0 &&  e != null) {
+        if(e != null){
+        if (e.x <= 0 || e.x>= width - e.w) {
+          turn = true;}
+        }
+        if (frameCount % 60 == 0 && e != null) {
           e.update();
           //update position
-          if (e.x <= 0 || e.x>= width - e.w) {
+          if (turn){
             for (int row = 0; row < rows; row++) {
               for (int col =0; col < cols; col++) {
+                
                 if(enemies[row][col] != null){
                 enemies[row][col].changedir();
                 }
               }
-            }
+            }println(turn);
+            turn = false;
           }
         }
         if (e != null) {
@@ -133,8 +139,6 @@ void draw() {
 
 
     if (!anyAlive) gameWon = true;
-
-    // --- UI ---
     fill(255);
     textSize(18);
     text("Score: " + score, 10, 20);
@@ -143,6 +147,7 @@ void draw() {
     if (lives <= 0) {
       textSize(40);
       text("GAME OVER", width/2 - 120, height/2);
+      score = 0;
     }
 
     if (gameWon) {
