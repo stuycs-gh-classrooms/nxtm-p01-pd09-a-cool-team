@@ -1,7 +1,7 @@
 Player player;
 
-int rows = 4; // 6 rows of enemies
-int cols = 10; // 10 enemies per row
+int rows = 3; // 3 rows of enemies
+int cols = 8; // 8 enemies per row
 Enemy[][] enemies;
 Projectile[] playerShots = new Projectile[9999]; //pretty much unlimited shots
 Projectile[] enemyShots = new Projectile[9999];
@@ -90,63 +90,66 @@ void draw() {
     // enemies
     boolean anyAlive = false;
 
-      for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-          Enemy e = enemies[r][c];
-          //if (e != null) {//checks every enemy, if they are alive:
-          if (frameCount % 60 == 0) {
-            e.update();
-            //update position
-            if (e.x <= 0 || e.x>= width - e.w) {
-              for (int row = 0; row < rows; row++) {
-                for (int col =0; col < cols; col++) {
-                  enemies[row][col].changedir();
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        Enemy e = enemies[r][c];
+        //if (e != null) {//checks every enemy, if they are alive:
+        if (frameCount % 60 == 0 &&  e != null) {
+          e.update();
+          //update position
+          if (e.x <= 0 || e.x>= width - e.w) {
+            for (int row = 0; row < rows; row++) {
+              for (int col =0; col < cols; col++) {
+                if(enemies[row][col] != null){
+                enemies[row][col].changedir();
                 }
               }
             }
           }
+        }
+        if (e != null) {
+          e.display();
+          anyAlive = true;
+        }//draw them
+ //checks that at least one enemy is still alive
+        //useful for checking if we won
+        if (e != null && e.y > height - 60) {
+          lives--;//lose a life and enemies go back to top of they reach bottom
+          e.reset();
+        }
 
-          e.display();//draw them
-
-          anyAlive = true; //checks that at least one enemy is still alive
-          //useful for checking if we won
-          if (e.y > height - 60) {
-            lives--;//lose a life and enemies go back to top of they reach bottom
-            e.reset();
-          }
-
-          // random enemy fire
-          if (random(100) < 0.1 ) { //0.1% chance for every enemy to shoot
-            for (int k = 0; k < enemyShots.length; k++) {
-              if (enemyShots[k] == null) {
-                enemyShots[k] = new Projectile(e.x + e.w/2, e.y + e.h, 4); // positive speed = down
-                k = enemyShots.length;
-              }
+        // random enemy fire
+        if (e != null && random(100) < 0.1 ) { //0.1% chance for every enemy to shoot
+          for (int k = 0; k < enemyShots.length; k++) {
+            if (enemyShots[k] == null) {
+              enemyShots[k] = new Projectile(e.x + e.w/2, e.y + e.h, 4); // positive speed = down
+              k = enemyShots.length;
             }
           }
         }
       }
-    
-  
+    }
 
-  if (!anyAlive) gameWon = true;
 
-  // --- UI ---
-  fill(255);
-  textSize(18);
-  text("Score: " + score, 10, 20);
-  text("Lives: " + lives, 10, 40);
 
-  if (lives <= 0) {
-    textSize(40);
-    text("GAME OVER", width/2 - 120, height/2);
+    if (!anyAlive) gameWon = true;
+
+    // --- UI ---
+    fill(255);
+    textSize(18);
+    text("Score: " + score, 10, 20);
+    text("Lives: " + lives, 10, 40);
+
+    if (lives <= 0) {
+      textSize(40);
+      text("GAME OVER", width/2 - 120, height/2);
+    }
+
+    if (gameWon) {
+      textSize(40);
+      text("YOU WIN!", width/2 - 100, height/2);
+    }
   }
-
-  if (gameWon) {
-    textSize(40);
-    text("YOU WIN!", width/2 - 100, height/2);
-  }
-}
 }
 
 void keyPressed() {
