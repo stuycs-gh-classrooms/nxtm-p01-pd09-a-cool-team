@@ -10,6 +10,7 @@ int score = 0; //inital score
 int lives = 3; // number of lives
 int wave = 1; // inital wave
 int waveStartFrame = 0; //initalizes tracker for the frame the wave starts on
+boolean paused = false; 
 
 void setup() {
   size(600, 400);
@@ -54,7 +55,14 @@ void spawnNextWave() {
 }
 
 void draw() {
-
+  if (paused) {
+    fill(255);
+    textSize(40);
+    text("PAUSED", width/2 - 70, height/2);
+    textSize(20);
+    text("Press p to Resume", width/2 - 90, height/2 + 40);
+    return; // skip rest of the draw loop
+  }
   if (lives > 0) {
     background(0); //black
     player.update(); //update location
@@ -168,7 +176,7 @@ void draw() {
 
 
     if (!anyAlive) {// if all enemies have been cleared, spawn next wave and increment wave counter
-      wave++; 
+      wave++;
       spawnNextWave();
     }
     fill(255);
@@ -200,6 +208,9 @@ void keyPressed() {
   if (keyCode == RIGHT) player.dir = 1;//postive direction is the right
   if (key == ' ') shootPlayer();//shoot
   if (key == 'r') resetGame();//reset everything
+  if (key == 'p'){
+    paused = !paused; // toggle paused on or off
+  }
 }
 
 void keyReleased() {
